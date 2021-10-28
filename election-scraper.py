@@ -5,6 +5,8 @@ import sys
 import os
 import traceback
 
+sys.argv = ("scraper", "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=2&xnumnuts=2101", "results-Benespv")
+
 
 def verification_of_arguments(arguments):
     if len(sys.argv) < 3:
@@ -69,22 +71,25 @@ def info_town(URL, results):
 
 
 def town_election(soup):
+    parties = []
     table_tag = soup.find("table", {"class": "table"})
     all_tr = table_tag.find_all("tr")
     for tr in all_tr[2:]:
         td_row = tr.find_all("td")
         results = select_attributes(td_row)
+        parties.append(results)
 
     return results
 
 
 def nominating_parties(soup):
     parties = []
-    for table in soup.find_all('table'):
-        if table.caption in table:
-            all_tr = table.find_all("tr")
-            for tr in all_tr[2:]:
-                td_row = tr.find_all("td")
+    table_tag = soup.find_all('table')
+    for table in table_tag:
+        all_tr = table.find_all("tr")
+        for tr in all_tr[2:]:
+            td_row = tr.find_all("td")
+            if not td_row[0].getText() == "-":
                 results = select_attributes(td_row)
                 parties.append(results)
 
@@ -101,7 +106,7 @@ def select_attributes(td_row):
     elif len(td_row) == 5:
         return {
             td_row[1].getText(): td_row[2].getText()
-        }
+            }
     else:
         return {
             "Registred voters": td_row[3].getText(),
@@ -151,4 +156,6 @@ list_of_towns = town_selection(soup)
 results_of_town, results_of_parties = info_town(URL_REGION, list_of_towns)
 all_results = make_dic(list_of_towns, results_of_town, results_of_parties)
 print(make_csv_file(file_name, all_results))
+
+
 
