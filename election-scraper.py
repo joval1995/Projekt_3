@@ -5,10 +5,9 @@ import sys
 import os
 import traceback
 
-sys.argv = ("scraper", "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=2&xnumnuts=2101", "results-Benespv")
-
 
 def verification_of_arguments(arguments):
+    soup = make_soup(URL_REGION)
     if len(sys.argv) < 3:
         print(f"File: {sys.argv[0]} has a lack of arguments.")
         quit()
@@ -17,6 +16,9 @@ def verification_of_arguments(arguments):
         quit()
     elif not requests.get(sys.argv[1]).status_code == 200:
         print(f" {sys.argv[1]} address is not valid.")
+        quit()
+    elif "Page not found!" in soup.getText():
+        print(f"Page {sys.argv[1]} not found.")
         quit()
     elif not "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=" in sys.argv[1]:
         print(f" {sys.argv[1]} address is not correct")
@@ -147,10 +149,9 @@ def make_csv_file(file_name, results):
         csv_file.close()
         return f"Finishing {sys.argv[0]}"
 
-
-print(verification_of_arguments(sys.argv))
 URL_REGION = sys.argv[1]
 file_name = sys.argv[2]
+print(verification_of_arguments(sys.argv))
 soup = make_soup(URL_REGION)
 list_of_towns = town_selection(soup)
 results_of_town, results_of_parties = info_town(URL_REGION, list_of_towns)

@@ -25,7 +25,7 @@ election-scraper.py <url_link_okresu> <výsledný_csv_súbor>
 Výsledky hlasovania pre okres Benešov.
 ```python
 1.argument: https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=2&xnumnuts=2101
-2.argement: výsledky-Benešov.csv
+2.argement: results-Benesov.csv
 ```
 Spustenie programu v cmd:
 ```python
@@ -34,7 +34,7 @@ python election-scraper.py "https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=
 Priebeh sťahovania:
 ```python
 Downloading data from URL: https://volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=2&xnumnuts=2101
-Saving results to file: výsledky-Benešov.csv
+Saving results to file: results-Benesov.csv
 Finishing election-scraper.py
 ```
 Čiastočný výstup:
