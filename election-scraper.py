@@ -157,6 +157,3 @@ list_of_towns = town_selection(soup)
 results_of_town, results_of_parties = info_town(URL_REGION, list_of_towns)
 all_results = make_dic(list_of_towns, results_of_town, results_of_parties)
 print(make_csv_file(file_name, all_results))
-
-
-
